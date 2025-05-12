@@ -17,13 +17,15 @@ serve(async (req) => {
       throw new Error("GEMINI_API_KEY not found");
     }
 
-    // Standard system message for content generation
+    // System message for content generation
     const systemMessage = `You are an AI specialized in generating funny, creative content. 
     You're helping with a website called "Pointlessly Genius" that creates humorous, useless content.
     Generate exactly ONE response for the category: ${category}.
     Keep it concise (1-2 sentences max), funny, and suitable for general audiences.
     Don't include any explanations, just the generated content.`;
 
+    console.log(`Generating content for category: ${category}`);
+    
     // Prepare the API request to Gemini
     const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent";
     
@@ -56,6 +58,7 @@ serve(async (req) => {
     let generatedText;
     try {
       generatedText = data.candidates[0].content.parts[0].text;
+      console.log("Generated text:", generatedText);
     } catch (err) {
       console.error("Error extracting text from Gemini response:", data);
       throw new Error("Failed to extract text from Gemini response");

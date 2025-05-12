@@ -34,6 +34,8 @@ const Generator: React.FC<GeneratorProps> = ({
     setIsError(false);
     
     try {
+      console.log(`Generating content for category: ${title}`);
+      
       // Call our Supabase Edge Function
       const { data, error } = await supabase.functions.invoke('generate-content', {
         body: { 
@@ -42,7 +44,12 @@ const Generator: React.FC<GeneratorProps> = ({
         }
       });
       
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase function error:", error);
+        throw error;
+      }
+      
+      console.log("API response:", data);
       
       if (data?.result) {
         setResult(data.result);
@@ -55,7 +62,7 @@ const Generator: React.FC<GeneratorProps> = ({
       setResult("Oops! Even useless things break sometimes. Please try again!");
       toast({
         title: "Generation Error",
-        description: "Something went wrong. Please try again later.",
+        description: "Something went wrong generating your content. Please try again later.",
         variant: "destructive"
       });
     } finally {
