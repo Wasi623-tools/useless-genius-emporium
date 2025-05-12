@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from '@/components/ui/use-toast';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { InfoIcon } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 interface GeneratorProps {
   emoji: string;
@@ -31,6 +32,7 @@ const Generator: React.FC<GeneratorProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [isFallback, setIsFallback] = useState<boolean>(false);
+  const [userPrompt, setUserPrompt] = useState<string>("");
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -44,7 +46,7 @@ const Generator: React.FC<GeneratorProps> = ({
       const { data, error } = await supabase.functions.invoke('generate-content', {
         body: { 
           category: title,
-          prompt: `Generate a funny ${title} content`
+          prompt: userPrompt || `Generate a funny ${title} content`
         }
       });
       
@@ -90,13 +92,22 @@ const Generator: React.FC<GeneratorProps> = ({
           <div className="text-6xl mb-4">{emoji}</div>
           <h1 className="fun-title">{title}</h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-6">{description}</p>
-          <Button 
-            onClick={handleGenerate}
-            className={`fun-button-${buttonColor} ${isLoading ? 'opacity-80' : ''}`}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Generating...' : buttonText}
-          </Button>
+          
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-6">
+            <Input
+              className="max-w-md"
+              placeholder={`Enter your ${title.toLowerCase()} idea...`}
+              value={userPrompt}
+              onChange={(e) => setUserPrompt(e.target.value)}
+            />
+            <Button 
+              onClick={handleGenerate}
+              className={`fun-button-${buttonColor} ${isLoading ? 'opacity-80' : ''}`}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Generating...' : buttonText}
+            </Button>
+          </div>
         </div>
 
         {isFallback && (
