@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -8,6 +9,13 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { InfoIcon, Clipboard } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import SocialIcons from './SocialIcons';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
 
 interface GeneratorProps {
   emoji: string;
@@ -18,6 +26,42 @@ interface GeneratorProps {
   buttonColor?: string;
   backgroundColor?: string;
 }
+
+const languages = [
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Spanish' },
+  { value: 'fr', label: 'French' },
+  { value: 'de', label: 'German' },
+  { value: 'it', label: 'Italian' },
+  { value: 'pt', label: 'Portuguese' },
+  { value: 'ru', label: 'Russian' },
+  { value: 'zh', label: 'Chinese Simplified' },
+  { value: 'zh-TW', label: 'Chinese Traditional' },
+  { value: 'ja', label: 'Japanese' },
+  { value: 'ko', label: 'Korean' },
+  { value: 'ar', label: 'Arabic' },
+  { value: 'hi', label: 'Hindi' },
+  { value: 'bn', label: 'Bengali' },
+  { value: 'uk', label: 'Ukrainian' },
+  { value: 'pl', label: 'Polish' },
+  { value: 'nl', label: 'Dutch' },
+  { value: 'sv', label: 'Swedish' },
+  { value: 'da', label: 'Danish' },
+  { value: 'no', label: 'Norwegian' },
+  { value: 'fi', label: 'Finnish' },
+  { value: 'tr', label: 'Turkish' },
+  { value: 'el', label: 'Greek' },
+  { value: 'cs', label: 'Czech' },
+  { value: 'hu', label: 'Hungarian' },
+  { value: 'ro', label: 'Romanian' },
+  { value: 'th', label: 'Thai' },
+  { value: 'vi', label: 'Vietnamese' },
+  { value: 'id', label: 'Indonesian' },
+  { value: 'ms', label: 'Malay' },
+  { value: 'he', label: 'Hebrew' },
+  { value: 'fa', label: 'Persian' },
+  { value: 'sw', label: 'Swahili' },
+];
 
 const Generator: React.FC<GeneratorProps> = ({
   emoji,
@@ -33,6 +77,7 @@ const Generator: React.FC<GeneratorProps> = ({
   const [isError, setIsError] = useState<boolean>(false);
   const [isFallback, setIsFallback] = useState<boolean>(false);
   const [userPrompt, setUserPrompt] = useState<string>("");
+  const [language, setLanguage] = useState<string>("en");
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -40,13 +85,14 @@ const Generator: React.FC<GeneratorProps> = ({
     setIsFallback(false);
     
     try {
-      console.log(`Generating content for category: ${title}`);
+      console.log(`Generating content for category: ${title} in language: ${language}`);
       
       // Call our Supabase Edge Function
       const { data, error } = await supabase.functions.invoke('generate-content', {
         body: { 
           category: title,
-          prompt: userPrompt || `Generate a funny ${title} content`
+          prompt: userPrompt || `Generate a funny ${title} content`,
+          language: language
         }
       });
       
@@ -102,12 +148,26 @@ const Generator: React.FC<GeneratorProps> = ({
           <p className="text-lg md:text-xl text-muted-foreground mb-6">{description}</p>
           
           <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-6">
-            <Input
-              className="max-w-md"
-              placeholder={`Enter your ${title.toLowerCase()} idea...`}
-              value={userPrompt}
-              onChange={(e) => setUserPrompt(e.target.value)}
-            />
+            <div className="flex flex-1 w-full max-w-md gap-3">
+              <Input
+                className="flex-grow"
+                placeholder={`Enter your ${title.toLowerCase()} idea...`}
+                value={userPrompt}
+                onChange={(e) => setUserPrompt(e.target.value)}
+              />
+              <Select value={language} onValueChange={setLanguage}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Language" />
+                </SelectTrigger>
+                <SelectContent className="max-h-[300px]">
+                  {languages.map((lang) => (
+                    <SelectItem key={lang.value} value={lang.value}>
+                      {lang.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <Button 
               onClick={handleGenerate}
               className={`fun-button-${buttonColor} ${isLoading ? 'opacity-80' : ''}`}

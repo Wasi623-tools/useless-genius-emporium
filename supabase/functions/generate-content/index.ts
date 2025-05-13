@@ -55,21 +55,22 @@ serve(async (req) => {
   }
 
   try {
-    const { category, prompt } = await req.json();
+    const { category, prompt, language = "en" } = await req.json();
     
     if (!GEMINI_API_KEY) {
       throw new Error("GEMINI_API_KEY not found");
     }
 
-    console.log(`Generating content for category: ${category}`);
+    console.log(`Generating content for category: ${category} in language: ${language}`);
     
     try {
-      // System message for content generation
+      // System message for content generation with language instruction
       const systemMessage = `You are an AI specialized in generating funny, creative content. 
       You're helping with a website called "Pointlessly Genius" that creates humorous, useless content.
       Generate exactly ONE response for the category: ${category}.
       Keep it concise (1-2 sentences max), funny, and suitable for general audiences.
-      Don't include any explanations, just the generated content.`;
+      Don't include any explanations, just the generated content.
+      IMPORTANT: Your response MUST be in ${language} language.`;
       
       // Prepare the API request to Gemini 2.0 Flash
       const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
@@ -84,7 +85,7 @@ serve(async (req) => {
             {
               parts: [
                 {
-                  text: `${systemMessage}\n\nCategory: ${category}\nPrompt: ${prompt || "Generate something funny"}`
+                  text: `${systemMessage}\n\nCategory: ${category}\nPrompt: ${prompt || "Generate something funny"}\nLanguage: ${language}`
                 }
               ]
             }
