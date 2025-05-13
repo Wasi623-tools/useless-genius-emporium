@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -6,8 +5,9 @@ import Layout from './Layout';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from '@/components/ui/use-toast';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { InfoIcon } from 'lucide-react';
+import { InfoIcon, Clipboard } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import SocialIcons from './SocialIcons';
 
 interface GeneratorProps {
   emoji: string;
@@ -62,11 +62,7 @@ const Generator: React.FC<GeneratorProps> = ({
         // Check if this was a fallback response
         if (data.fallback) {
           setIsFallback(true);
-          toast({
-            title: "Using Backup Content",
-            description: "Gemini API is currently unavailable. Using our backup generator instead.",
-            variant: "default"
-          });
+          // Silent fallback, no popup
         }
       } else {
         throw new Error("No result returned from API");
@@ -74,14 +70,26 @@ const Generator: React.FC<GeneratorProps> = ({
     } catch (error) {
       console.error("Error generating content:", error);
       setIsError(true);
-      setResult("Oops! Even useless things break sometimes. Please try again!");
-      toast({
-        title: "Generation Error",
-        description: "Something went wrong generating your content. Please try again later.",
-        variant: "destructive"
-      });
+      
+      // Don't clear the result if we already have one - keep showing the previous result
+      if (!result) {
+        setResult("Oops! Even useless things break sometimes. Please try again!");
+      }
+      
+      // No popup or toast notification about the error
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const copyToClipboard = () => {
+    if (result) {
+      navigator.clipboard.writeText(result);
+      toast({
+        title: "Copied!",
+        description: "Content copied to clipboard",
+        variant: "default"
+      });
     }
   };
 
@@ -114,15 +122,30 @@ const Generator: React.FC<GeneratorProps> = ({
           <Alert className="mb-4 border-blue-300 bg-blue-50">
             <InfoIcon className="h-4 w-4 text-blue-500" />
             <AlertDescription className="text-blue-800">
-              Using our backup content generator because the Gemini API is currently unavailable.
+              Using our backup content generator.
             </AlertDescription>
           </Alert>
         )}
 
-        <Card className="p-6 bg-white rounded-2xl shadow-lg border-2 border-muted min-h-[200px] flex items-center justify-center">
+        <Card className="p-6 bg-white rounded-2xl shadow-lg border-2 border-muted min-h-[200px] flex flex-col items-center justify-center relative">
           {result ? (
-            <div className={`text-lg md:text-xl ${isError ? 'text-destructive' : 'text-foreground'} text-center`}>
-              {result}
+            <div className="w-full">
+              <div className={`text-lg md:text-xl ${isError ? 'text-destructive' : 'text-foreground'} text-center mb-6`}>
+                {result}
+              </div>
+              
+              <div className="flex flex-col gap-4">
+                <Button 
+                  variant="outline" 
+                  className="flex items-center justify-center gap-2"
+                  onClick={copyToClipboard}
+                >
+                  <Clipboard className="h-4 w-4" />
+                  <span>Copy to clipboard</span>
+                </Button>
+                
+                <SocialIcons content={result} />
+              </div>
             </div>
           ) : (
             <div className="text-lg text-muted-foreground text-center italic">
