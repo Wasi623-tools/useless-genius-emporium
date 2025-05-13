@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
+import Image from './Image';
 
 interface SocialIconsProps {
   content: string;
@@ -29,7 +29,6 @@ const SocialIcons: React.FC<SocialIconsProps> = ({ content }) => {
         shareUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
         break;
       case 'pinterest':
-        // For Pinterest, we'll use the same icon style but with a different icon since Pinterest isn't available
         shareUrl = `https://pinterest.com/pin/create/button/?description=${encodedText}`;
         toast({
           title: "Pinterest Sharing",
@@ -49,56 +48,56 @@ const SocialIcons: React.FC<SocialIconsProps> = ({ content }) => {
     window.open(shareUrl, '_blank');
   };
 
+  const socialIcons = [
+    {
+      platform: 'facebook',
+      imageUrl: 'https://media-hosting.imagekit.io/b569113e60cf4681/facebook.png?Expires=1841716321&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=YZUwEpBRCV~ZdS0vYmAezRFr8QW763Z8OSFk7FgxoolIIyNcKNRsxFzViaWzKTOCCV~28a1cmSKnEd~EfPU5eO7Jo5SHri8HZEbY-QIShGKx8arTWKjhesvBWuhb2-hDhy-HxFsufd7JQRxOQI3M10PQ6TMAccx289K2K8d4VDh5Q7TV9crPG4ydTOhrXFnNUaxPOAETJqWTkeKi-mDabtR1nPyqiMIbPg1gdahbYXS0uW6CjVOspApjTNprwTLWwvrdaoMsk1tqOX1d7CG9nnRp3kIRVa54bU-nEZwSw4WmVpqWqhBN4-ALIEc6A9hQXcFcdXEFuWRCM4NpktyHdw',
+      bgColor: 'bg-blue-100 hover:bg-blue-200'
+    },
+    {
+      platform: 'twitter',
+      imageUrl: 'https://media-hosting.imagekit.io/80ee184933de4bc6/twitter.png?Expires=1841716321&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ipGHx-7UTzGwvXCZzSGjodJmYRYfBbKXO1PLpERakYR-wL4k0pInOlmq8hBUwu8tUhl3eu5hftHRCvuJxfxOjH9~DdyazoJdP9T9im4ZwZxdSc-X0G6O0UO5lvhsDEPBUOoC03QeBUK~LrnKX41fnxBK6j477WFThuXwfmgwur3SpsxEQWKN7rhPbmlzm4Bv2-I4-wlFNLYFqsB0pR3iBXtmn3VWB3I8FL3U3Ey9y6iwFkzEYaw7rPJ8Z4WvW~5Yl3Wr4cEn5FyaHSlglyhF4356No3gt2gsOylANZdLNch2aHnNcXd0IEMM-wj6o~5cZHG7g4u96nNOQTte6PF6BQ',
+      bgColor: 'bg-sky-100 hover:bg-sky-200'
+    },
+    {
+      platform: 'linkedin',
+      imageUrl: 'https://media-hosting.imagekit.io/26a995a3dfe54a66/linkedin.png?Expires=1841716321&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=m9IqG-0OXlw07cFUuuMLpYE8pzO2dps7EJboQeUu-SAdcfFW23BxWkzZit4fRoHGG2IhZ0v8FhVSj1iDXSFqyrcvQm7VcDiL77xRBP77Efb3KyKWFhAcwdSPkw7FOTQDHD~7428msN-y5OxsKAWrqAIvU53dB-Bkrm~iwFxiQFv6OjdQ-Vl7zh4if9LaIYjtksusECi-~KIpJR9MfhJu3zk7DfffRuun8pT4tXfIW69qCPFG2mIfDsWsc4V6iFbgzm9a2d4qdXOaM3K3efg4QiJkW5s77fDeeKIybu4bG85E5qsZNUz3At-hUBezMNEUq1B31hn~x0EVL9OMRhVsUA',
+      bgColor: 'bg-blue-100 hover:bg-blue-200'
+    },
+    {
+      platform: 'whatsapp',
+      imageUrl: 'https://media-hosting.imagekit.io/9c397e7b297f4f84/whatsapp.png?Expires=1841716321&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=bOxzbQWRim5diZ-RxC3Y7umN2qp~9H9yETnA3hZEQYs0st29XH3eYAGqj6ismPCpdsUsIz3U2vZsBE0C2GJHEZVUTSD2nU5SdKtxipN8tFBNmPaQf~a1ZkndIkEgIKw-4JYAIJ-fSmTp057Dqt6~S6T4~dxYZZhakX0M-hBkaLNk8zuefJmO4aCPsMJFYl0YUFjfzJOup2-ex52p1EYKYANRAms7rh-BdLOeILVcvTmOuP8JymtioEJ850R9KqVRYqHq0W8SA4wsffuhB54J8~H-GM5RY6DoY3Lw6tABfb2nrO~r4zMUsQWkW2ZlrTgaGgqLeg4MxlElbY8mqcPOsw',
+      bgColor: 'bg-green-100 hover:bg-green-200'
+    },
+    {
+      platform: 'pinterest',
+      imageUrl: 'https://media-hosting.imagekit.io/794102482e0d4784/pinterest-logo.png?Expires=1841716321&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=mf5Eg14bqwUdZ1CVGrTfNJVQNPrt7-xRJ46~AF7F7alEQMCLG8dm4lGHtJ5T9KXyoRRqOjf9rNpN1Fzi8YXsRJhCgt6tXvjJWpC9yHXrSo6ICPHL8JBjdekW7Sb0gDZfRNyXQ2CYEPa8c55wUGoMUW0I0x3yz42iWO7y6J75G2mQlMrpH3K80lEbtO6Kz9KuCxNvBUaHLzyvGJdGeKTGF~C6oT4OTmwFAyGINtcyHbuWPjnoa5DQIKse~vpd9GlZWZU3aT-aqTklpssdprFFKHbaqf1c4UJEorhegWRsZzMbCeHWI8MFQVGD9NXH5LRyr8haegHD-N--HcaJE1xyuQ',
+      bgColor: 'bg-red-100 hover:bg-red-200'
+    },
+    {
+      platform: 'instagram',
+      imageUrl: 'https://media-hosting.imagekit.io/cd175f439d124997/instagram.png?Expires=1841716321&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=Nyvu6D~lFW8ZA2QKD9fcQDEe65b6fzqavFBSrkTNR8vxYV6S~9J0Ps5UpjFpL0QFAFoIkxtZkKPkAcklndT7vv9~gn7q1sA-kaEa0exm~WfKshLfEx-OYCFYAr1ErwHC3FjxuiFN4QJsaIc0GiNPTNx-~CNZDb9Ez-bXvjZ8VlxqNd26mwreECVWNm4X2YnV9Yv576MIGDc7-JAn23vHU7kOsYIEYjw6k~WL22K1aQlsIUSNDHk72JLQbXqr4pA3U7qtHwi-7LXiNWTAgk8FJjwGOWzG~PT1vUBjC5~OMJ6oOCyorCmJp7o33SUbsXbuyH1ab4UX3agcsEO8UYnzeA',
+      bgColor: 'bg-purple-100 hover:bg-purple-200'
+    },
+  ];
+
   return (
     <div className="flex flex-wrap justify-center gap-3 mt-2">
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        onClick={() => shareToSocial('facebook')} 
-        className="bg-blue-100 hover:bg-blue-200"
-      >
-        <Facebook className="h-5 w-5 text-blue-600" />
-      </Button>
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        onClick={() => shareToSocial('twitter')} 
-        className="bg-sky-100 hover:bg-sky-200"
-      >
-        <Twitter className="h-5 w-5 text-sky-600" />
-      </Button>
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        onClick={() => shareToSocial('linkedin')} 
-        className="bg-blue-100 hover:bg-blue-200"
-      >
-        <Linkedin className="h-5 w-5 text-blue-700" />
-      </Button>
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        onClick={() => shareToSocial('whatsapp')} 
-        className="bg-green-100 hover:bg-green-200"
-      >
-        <Linkedin className="h-5 w-5 text-green-600" />
-      </Button>
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        onClick={() => shareToSocial('pinterest')} 
-        className="bg-red-100 hover:bg-red-200"
-      >
-        <Twitter className="h-5 w-5 text-red-600" />
-      </Button>
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        onClick={() => shareToSocial('instagram')} 
-        className="bg-purple-100 hover:bg-purple-200"
-      >
-        <Instagram className="h-5 w-5 text-purple-600" />
-      </Button>
+      {socialIcons.map((icon, index) => (
+        <Button 
+          key={index}
+          variant="ghost" 
+          size="icon" 
+          onClick={() => shareToSocial(icon.platform)} 
+          className={icon.bgColor}
+        >
+          <img 
+            src={icon.imageUrl} 
+            alt={`${icon.platform} icon`}
+            className="h-5 w-5 object-contain"
+          />
+        </Button>
+      ))}
     </div>
   );
 };
