@@ -71,8 +71,8 @@ serve(async (req) => {
       Keep it concise (1-2 sentences max), funny, and suitable for general audiences.
       Don't include any explanations, just the generated content.`;
       
-      // Prepare the API request to Gemini
-      const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent";
+      // Prepare the API request to Gemini 2.0 Flash
+      const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
       
       const response = await fetch(`${url}?key=${GEMINI_API_KEY}`, {
         method: "POST",
@@ -82,7 +82,6 @@ serve(async (req) => {
         body: JSON.stringify({
           contents: [
             {
-              role: "user",
               parts: [
                 {
                   text: `${systemMessage}\n\nCategory: ${category}\nPrompt: ${prompt || "Generate something funny"}`
@@ -108,6 +107,7 @@ serve(async (req) => {
       // Extract the text from the response
       let generatedText;
       try {
+        // Updated to match the Gemini 2.0 response format
         generatedText = data.candidates[0].content.parts[0].text;
         console.log("Generated text:", generatedText);
         
