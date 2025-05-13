@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Facebook, Twitter, Linkedin, Instagram, Pinterest } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
 
 interface SocialIconsProps {
@@ -29,7 +29,13 @@ const SocialIcons: React.FC<SocialIconsProps> = ({ content }) => {
         shareUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
         break;
       case 'pinterest':
+        // For Pinterest, we'll use the same icon style but with a different icon since Pinterest isn't available
         shareUrl = `https://pinterest.com/pin/create/button/?description=${encodedText}`;
+        toast({
+          title: "Pinterest Sharing",
+          description: "Opening Pinterest sharing dialog",
+          variant: "default"
+        });
         break;
       case 'instagram':
         toast({
@@ -83,7 +89,7 @@ const SocialIcons: React.FC<SocialIconsProps> = ({ content }) => {
         onClick={() => shareToSocial('pinterest')} 
         className="bg-red-100 hover:bg-red-200"
       >
-        <Pinterest className="h-5 w-5 text-red-600" />
+        <Twitter className="h-5 w-5 text-red-600" />
       </Button>
       <Button 
         variant="ghost" 
