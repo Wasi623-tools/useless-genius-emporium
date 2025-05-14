@@ -2,8 +2,17 @@
 import React from 'react';
 import Layout from '@/components/Layout';
 import { Card } from '@/components/ui/card';
+import { toast } from '@/hooks/use-toast';
 
 const Contact = () => {
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Form Submitted",
+      description: "We'll get back to you once our pet dinosaur approves your message.",
+    });
+  };
+
   return (
     <Layout>
       <div className="fun-container">
@@ -21,58 +30,27 @@ const Contact = () => {
                 Fill out this form and we'll get back to you whenever we remember to check our inbox.
               </p>
               
-              <form className="space-y-4">
-                <div>
-                  <label className="block mb-1 font-medium" htmlFor="name">Your Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    className="w-full p-3 rounded-lg border border-input bg-background" 
-                    placeholder="Your actual name or a funny fake one, we can't tell the difference"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block mb-1 font-medium" htmlFor="email">Email Address</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    className="w-full p-3 rounded-lg border border-input bg-background" 
-                    placeholder="We promise not to send too much spam"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block mb-1 font-medium" htmlFor="message">Your Message</label>
-                  <textarea 
-                    id="message" 
-                    rows={5} 
-                    className="w-full p-3 rounded-lg border border-input bg-background" 
-                    placeholder="Tell us what you think, or share your best bad joke"
-                  ></textarea>
-                </div>
-                
-                <div>
-                  <label className="block mb-1 font-medium" htmlFor="reason">Reason for Contact</label>
-                  <select 
-                    id="reason" 
-                    className="w-full p-3 rounded-lg border border-input bg-background"
-                  >
-                    <option value="">Select a reason</option>
-                    <option value="compliment">To give a pointless compliment</option>
-                    <option value="complaint">To file a useless complaint</option>
-                    <option value="joke">To share an awful joke</option>
-                    <option value="bored">Just bored, honestly</option>
-                    <option value="other">Other pointless reason</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <button type="button" className="fun-button-primary w-full">
-                    Send Message Into the Void
-                  </button>
-                </div>
-              </form>
+              <div className="w-full overflow-hidden">
+                <iframe 
+                  src="https://docs.google.com/forms/d/e/1FAIpQLSdidvNg2z6GFvPyPM-avTQ8uDUlA3TpdWqbIOGOofBpyXrrfA/viewform?embedded=true" 
+                  width="100%" 
+                  height="500" 
+                  style={{ border: 'none' }}
+                  title="Contact Form"
+                  onLoad={() => {
+                    // Add event listener to the iframe for form submission
+                    const iframe = document.querySelector('iframe');
+                    if (iframe && iframe.contentWindow) {
+                      iframe.contentWindow.addEventListener('submit', () => {
+                        toast({
+                          title: "Form Submitted",
+                          description: "We'll get back to you once our pet dinosaur approves your message.",
+                        });
+                      });
+                    }
+                  }}
+                >Loading…</iframe>
+              </div>
             </div>
             
             <div className="text-center">
