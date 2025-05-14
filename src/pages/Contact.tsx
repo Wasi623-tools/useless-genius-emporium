@@ -25,30 +25,19 @@ const Contact = () => {
             </p>
             
             <div className="bg-muted rounded-xl p-6 mb-6">
-              <h2 className="text-xl font-poppins font-bold mb-3">📬 Send us a Message</h2>
+              <h2 className="text-xl font-poppins font-bold mb-3">💬 Send Us a Message</h2>
               <p className="mb-4">
-                Fill out this form and we'll get back to you whenever we remember to check our inbox.
+                We're probably too busy inventing a sandwich that emails you back, but try us anyway!
               </p>
               
               <div className="w-full overflow-hidden">
                 <iframe 
                   src="https://docs.google.com/forms/d/e/1FAIpQLSdidvNg2z6GFvPyPM-avTQ8uDUlA3TpdWqbIOGOofBpyXrrfA/viewform?embedded=true" 
-                  width="100%" 
-                  height="500" 
-                  style={{ border: 'none' }}
-                  title="Contact Form"
-                  onLoad={() => {
-                    // Add event listener to the iframe for form submission
-                    const iframe = document.querySelector('iframe');
-                    if (iframe && iframe.contentWindow) {
-                      iframe.contentWindow.addEventListener('submit', () => {
-                        toast({
-                          title: "Form Submitted",
-                          description: "We'll get back to you once our pet dinosaur approves your message.",
-                        });
-                      });
-                    }
-                  }}
+                  width="750" 
+                  height="700" 
+                  frameBorder="0" 
+                  marginHeight="0" 
+                  marginWidth="0"
                 >Loading…</iframe>
               </div>
             </div>
