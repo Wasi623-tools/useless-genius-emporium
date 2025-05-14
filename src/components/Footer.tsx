@@ -1,8 +1,27 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Custom link handler that navigates and scrolls to top
+  const handleLinkClick = (to: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // Only navigate if we're going to a different page
+    if (location.pathname !== to) {
+      navigate(to);
+    }
+    
+    // Scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <footer className="bg-primary text-white py-8 px-4">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -16,24 +35,40 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-poppins font-bold mb-3">Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/about" className="hover:underline flex items-center">
+                <a 
+                  href="/about" 
+                  onClick={(e) => handleLinkClick('/about', e)} 
+                  className="hover:underline flex items-center"
+                >
                   <span className="mr-2">👀</span> About Us
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/disclaimer" className="hover:underline flex items-center">
+                <a 
+                  href="/disclaimer" 
+                  onClick={(e) => handleLinkClick('/disclaimer', e)} 
+                  className="hover:underline flex items-center"
+                >
                   <span className="mr-2">⚠️</span> Disclaimer
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/privacy" className="hover:underline flex items-center">
+                <a 
+                  href="/privacy" 
+                  onClick={(e) => handleLinkClick('/privacy', e)} 
+                  className="hover:underline flex items-center"
+                >
                   <span className="mr-2">🕵️</span> Privacy Policy
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/contact" className="hover:underline flex items-center">
+                <a 
+                  href="/contact" 
+                  onClick={(e) => handleLinkClick('/contact', e)} 
+                  className="hover:underline flex items-center"
+                >
                   <span className="mr-2">📬</span> Contact
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -42,19 +77,31 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-poppins font-bold mb-3">Generators</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/useless-fun" className="hover:underline flex items-center">
+                <a 
+                  href="/useless-fun" 
+                  onClick={(e) => handleLinkClick('/useless-fun', e)} 
+                  className="hover:underline flex items-center"
+                >
                   <span className="mr-2">🎲</span> Useless But Fun
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/bad-advice" className="hover:underline flex items-center">
+                <a 
+                  href="/bad-advice" 
+                  onClick={(e) => handleLinkClick('/bad-advice', e)} 
+                  className="hover:underline flex items-center"
+                >
                   <span className="mr-2">🤖</span> Bad Advice Bot
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/compliments" className="hover:underline flex items-center">
+                <a 
+                  href="/compliments" 
+                  onClick={(e) => handleLinkClick('/compliments', e)} 
+                  className="hover:underline flex items-center"
+                >
                   <span className="mr-2">🙃</span> Awkward Compliments
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
