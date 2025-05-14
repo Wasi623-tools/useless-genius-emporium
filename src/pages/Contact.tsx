@@ -35,9 +35,8 @@ const Contact = () => {
                   src="https://docs.google.com/forms/d/e/1FAIpQLSdidvNg2z6GFvPyPM-avTQ8uDUlA3TpdWqbIOGOofBpyXrrfA/viewform?embedded=true" 
                   width="750" 
                   height="700" 
-                  frameBorder="0" 
-                  marginHeight="0" 
-                  marginWidth="0"
+                  frameBorder={0} 
+                  title="Contact Form"
                 >Loading…</iframe>
               </div>
             </div>
