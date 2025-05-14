@@ -1,17 +1,53 @@
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Layout from '@/components/Layout';
 import { Card } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
 
 const Contact = () => {
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Form Submitted",
-      description: "We'll get back to you once our pet dinosaur approves your message.",
-    });
-  };
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    // Function to handle messages from the iframe
+    const handleIframeMessage = (event: MessageEvent) => {
+      // Check if the message is from Google Forms
+      if (event.origin.includes('google.com')) {
+        // This is a simple check - in practice, Google Forms doesn't reliably send messages
+        // So we'll also check for URL changes in the iframe
+        if (iframeRef.current?.contentWindow?.location.href.includes('formResponse')) {
+          toast({
+            title: "Form Submitted",
+            description: "We'll get back to you once our pet dinosaur approves your message.",
+          });
+        }
+      }
+    };
+
+    // Add message listener
+    window.addEventListener('message', handleIframeMessage);
+
+    // Setup an interval to check if the form was submitted
+    const checkFormStatus = setInterval(() => {
+      try {
+        const iframeWindow = iframeRef.current?.contentWindow;
+        if (iframeWindow && iframeWindow.location.href.includes('formResponse')) {
+          toast({
+            title: "Form Submitted",
+            description: "We'll get back to you once our pet dinosaur approves your message.",
+          });
+          clearInterval(checkFormStatus);
+        }
+      } catch (e) {
+        // Security error from cross-origin frame access - this is expected
+        // We can't directly access the iframe's location due to CORS
+      }
+    }, 1000);
+
+    return () => {
+      window.removeEventListener('message', handleIframeMessage);
+      clearInterval(checkFormStatus);
+    };
+  }, []);
 
   return (
     <Layout>
@@ -32,6 +68,7 @@ const Contact = () => {
               
               <div className="w-full overflow-hidden">
                 <iframe 
+                  ref={iframeRef}
                   src="https://docs.google.com/forms/d/e/1FAIpQLSdidvNg2z6GFvPyPM-avTQ8uDUlA3TpdWqbIOGOofBpyXrrfA/viewform?embedded=true" 
                   width="750" 
                   height="700" 
