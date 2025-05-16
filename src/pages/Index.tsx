@@ -68,19 +68,16 @@ const Index = () => {
       <section className="text-center py-10 px-4 bg-gradient-to-b from-white to-muted">
         <div className="max-w-4xl mx-auto">
           <h1 className="fun-title mb-6">Pointlessly Genius</h1>
-          <p className="text-xl md:text-2xl mb-8 font-medium text-muted-foreground">
+          <p className="text-xl md:text-2xl mb-4 font-medium text-muted-foreground">
             Making the Web 2% More Useless, One Click at a Time
           </p>
           
-          <div className="max-w-3xl mx-auto bg-white/80 rounded-xl p-6 mb-8 shadow-md border border-primary/20">
-            <p className="text-base md:text-lg mb-4">
+          <div className="max-w-3xl mx-auto mb-8">
+            <p className="text-base md:text-lg mb-3">
               A wholesome hub of useless genius, where fun meets function (kind of). No stress, no pressure, just brainless joy and tools you didn't know you needed.
             </p>
-            <p className="text-base md:text-lg mb-4">
-              💡 Browse, click, laugh — or cry. We won't judge. Probably.
-            </p>
             <p className="text-base md:text-lg italic text-muted-foreground">
-              ⚠️ Warning: Side effects may include excessive laughter, eye-rolling, and sudden urges to share dumb links with friends. Useless Genius Emporium is not responsible for accidental productivity. Proceed at your own delight.
+              💡 Browse, click, laugh — or cry. We won't judge. Probably.
             </p>
           </div>
           
