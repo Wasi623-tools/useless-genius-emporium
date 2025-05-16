@@ -38,7 +38,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <BrowserRouter basename="/useless-genius-emporium">
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />

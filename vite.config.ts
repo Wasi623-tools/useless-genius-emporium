@@ -22,4 +22,16 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
+    sourcemap: false,
+    // Ensure proper handling of assets
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
 }));
