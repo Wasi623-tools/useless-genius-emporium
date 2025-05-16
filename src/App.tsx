@@ -31,12 +31,6 @@ function ScrollToTop() {
   return null;
 }
 
-// Get base URL from environment or default to repository name for GitHub Pages
-const getBaseUrl = () => {
-  // Use the base URL from vite.config.ts for consistency
-  return import.meta.env.BASE_URL;
-};
-
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -44,7 +38,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter basename={getBaseUrl()}>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
